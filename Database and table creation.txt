@@ -1,0 +1,74 @@
+create database hms_db;
+
+use hms_db;
+
+create admins
+(
+   admin_id int primary key AUTO_INCREMENT,
+   admin_password varchar(50) not null
+);
+
+create table Doctors
+(
+   D_id int primary key AUTO_INCREMENT,
+   D_password varchar(20) not null,
+   D_name varchar(50) not null,
+   D_gender varchar(10) not null,
+   Specialization varchar(50) not null
+);
+
+
+create table Receptionists 
+(
+  R_id int primary key AUTO_INCREMENT,
+  R_password varchar(20) not null,
+  R_name varchar(50) not null,
+  R_age int,
+  R_gender varchar(10)
+);
+
+create table Patients
+(
+  P_id int primary key AUTO_INCREMENT,
+  P_password varchar(50) not null,
+  P_name varchar(50) not null,
+  P_age int not null,
+  P_gender varchar(10) not null
+);
+
+create table Appointments
+(
+  A_no int primary key AUTO_INCREMENT,
+  Ad_id int not null,
+  Ap_id int not null,
+  Ar_id int not null,
+  A_date date not null,
+  A_time time not null,
+  foreign key(Ad_id) references Doctors(D_id) on delete cascade,
+  foreign key(Ap_id) references Patients(P_id) on delete cascade,
+  foreign key(Ar_id) references Receptionists(R_id) on delete cascade
+);
+
+
+create table Medicines
+( 
+   M_code int primary key AUTO_INCREMENT,
+   M_name varchar(50) not null,
+   M_cost int not null,
+   company varchar(50) not null,
+   exp_date date not null
+);
+
+
+create table Decides
+(
+  Da_no int not null,
+  Dd_id int not null,
+  Dp_id int not null,
+  Dm_code int not null,
+  disease varchar(50) not null,
+  foreign key(Da_no) references Appointments(A_no) on delete cascade,
+  foreign key(Dd_id) references Doctors(D_id) on delete cascade,
+  foreign key(Dp_id) references Patients(P_id) on delete cascade,
+  foreign key(Dm_code) references Medicines(M_code) on delete cascade
+);
